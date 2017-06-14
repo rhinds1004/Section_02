@@ -19,7 +19,8 @@ enum class EWordStatus
 	Too_Short,
 	Too_Long,
 	Not_Letter,
-	Unknown_Error
+	Not_Lowercase,
+	Unknown_Error	
 };
 
 class FBullCowGame
@@ -33,7 +34,7 @@ public:
 	bool GetWonGame() const;
 	EWordStatus CheckGuessValidity(FString) const; //TODO make a more rich return value
 	bool IsGameWon() const;
-	EWordStatus IsIsogram(FString Guess) const;
+	
 
 	
 	void Reset();
@@ -47,4 +48,6 @@ private:
 	int32 MyMaxTries;
 	FString MyHiddenWord;
 	bool bWonGame;
+	EWordStatus IsIsogram(FString Guess) const;
+	bool IsLowerCase(FString Guess) const;
 };

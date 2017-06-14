@@ -114,7 +114,7 @@ FText FindErrorMsg(EWordStatus Error)
 	switch(Error)
 	{
 	case EWordStatus::Not_Isogram:
-		ErrorMsg = "Guess not an isogram";
+		ErrorMsg = "Guess is not an isogram";
 		break;
 	case EWordStatus::Too_Short:
 		ErrorMsg = "Guess is too short";
@@ -123,7 +123,10 @@ FText FindErrorMsg(EWordStatus Error)
 		ErrorMsg = "Guess is too long";
 		break;
 	case EWordStatus::Not_Letter:
-		ErrorMsg = "Guess contains a non-letter";
+		ErrorMsg = "Guess can not contain a non-letter";
+		break;
+	case EWordStatus::Not_Lowercase:
+		ErrorMsg = "Guess can not contain an Uppercase letter";
 		break;
 	default:
 		ErrorMsg = "Unknown error occurred on guess validation";

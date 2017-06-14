@@ -1,4 +1,6 @@
 #include "FBullCowGame.h"
+#include <map>
+#define TMap std::map
 
 using FString = std::string;
 using int32 = int;
@@ -43,31 +45,46 @@ bool FBullCowGame::IsGameWon() const
 
 EWordStatus FBullCowGame::IsIsogram(FString Guess) const
 {
-	int32 guessLength = Guess.length() / sizeof(TCHAR);
 	EWordStatus result = EWordStatus::OK;
-	TCHAR guessChar = NULL;
-	int32 counter = 0, i = 0;
-	do
+	TMap<char, bool> LetterSeen;
+	//treat 0 or 1 guess as isograms
+	if(Guess.length()/sizeof(TCHAR) <= 1){ return result; }
+
+	for(auto Letter : Guess) 
 	{
-		guessChar = Guess[counter];
-		if(!isalpha(guessChar))
+		Letter = tolower(Letter);
+		if(!isalpha(Letter))
 		{
 			result = EWordStatus::Not_Letter;
+			break;
+		}
+		if(LetterSeen[Letter] == true)
+		{
+			result = EWordStatus::Not_Isogram;
+			break;
 		}
 		else
 		{
-			for(i = 0; i < guessLength; i++)
-			{
-				if(Guess[i] == guessChar && i != counter)
-				{
-					result = EWordStatus::Not_Isogram;
-					break;
-				}
-			}
+			LetterSeen[Letter] = true;
 		}
-		counter++;
-	} while(result == EWordStatus::OK && counter < guessLength);
+
+	}
 	return result;
+}
+
+// if a letter in the guess is not lower case, function returns false
+// returns true otherwise.
+bool FBullCowGame::IsLowerCase(FString Guess) const
+{
+
+	for(auto Letter : Guess)
+	{
+		if(islower(Letter) == false)
+		{
+			return false;
+		}
+	}
+	return true;
 }
 
 
@@ -77,6 +94,7 @@ EWordStatus FBullCowGame::CheckGuessValidity(FString Guess) const
 	int32 guessLength = Guess.length() / sizeof(TCHAR);
 	int32 hiddenWordLength = GetHiddenWordLength();
 	EWordStatus result = EWordStatus::Unknown_Error;
+
 	result = IsIsogram(Guess);
 	if(result == EWordStatus::OK)
 	{
@@ -90,6 +108,10 @@ EWordStatus FBullCowGame::CheckGuessValidity(FString Guess) const
 			{
 				result = EWordStatus::Too_Long;
 			}
+		}
+		else if(IsLowerCase(Guess) == false)
+		{
+			result = EWordStatus::Not_Lowercase;
 		}
 		else
 		{
@@ -111,7 +133,7 @@ FBullCowCount FBullCowGame::SubmitValidGuess(FString Guess)
 		// if guess's letter and guess's letter position within the word
 		// is the same as hidden word's letter and letter
 		// position. It's a bull.
-		if(Guess[counter] == MyHiddenWord[counter])
+		if(tolower(Guess[counter]) == MyHiddenWord[counter])
 		{
 			BullCowCount.BullCount++;
 		}
@@ -121,7 +143,7 @@ FBullCowCount FBullCowGame::SubmitValidGuess(FString Guess)
 			// if the letter is found. It's a cow
 			for(i = 0; i < GetHiddenWordLength(); i++)
 			{
-				if(Guess[counter] == MyHiddenWord[i])
+				if(tolower(Guess[counter]) == MyHiddenWord[i])
 				{
 					BullCowCount.CowCount++;
 				}
