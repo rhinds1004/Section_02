@@ -1,17 +1,19 @@
+#pragma once
+
 #include "FBullCowGame.h"
 #include <map>
-#define TMap std::map
 
+// to make syntax Unreal friendly
+#define TMap std::map
 using FString = std::string;
 using int32 = int;
 using TCHAR = char;
 
 
-
-void FBullCowGame::Reset()
+void FBullCowGame::Reset() // used by the default constructor
 {
 	constexpr int32 START_CURRENT_TRY = 0;
-	const FString HIDDEN_WORD = "plants";
+	const FString HIDDEN_WORD = "plants";  //this MUST be an isogram
 
 	this->MyCurrentTry = START_CURRENT_TRY;
 	this->MyHiddenWord = HIDDEN_WORD;
@@ -25,19 +27,24 @@ FBullCowGame::FBullCowGame()
 }
 
 
+int32 FBullCowGame::GetCurrentTry() const
+{
+	return MyCurrentTry;
+}
 
-int32 FBullCowGame::GetCurrentTry() const { return MyCurrentTry; }
-
-bool FBullCowGame::GetWonGame()const { return this->bWonGame; }
+bool FBullCowGame::GetWonGame()const
+{
+	return this->bWonGame;
+}
 
 
 int32 FBullCowGame::GetHiddenWordLength() const
 {
-	return this->MyHiddenWord.length()/sizeof(TCHAR);
+	return this->MyHiddenWord.length() / sizeof(TCHAR);
 }
 
 
-bool FBullCowGame::IsGameWon() const 
+bool FBullCowGame::IsGameWon() const
 {
 	return this->GetWonGame();
 }
@@ -53,9 +60,12 @@ EWordStatus FBullCowGame::IsIsogram(FString Guess) const
 	EWordStatus result = EWordStatus::OK;
 	TMap<char, bool> LetterSeen;
 	//treat 0 or 1 guess as isograms
-	if(Guess.length()/sizeof(TCHAR) <= 1){ return result; }
+	if(Guess.length() / sizeof(TCHAR) <= 1)
+	{
+		return result;
+	}
 
-	for(auto Letter : Guess) 
+	for(auto Letter : Guess)
 	{
 		Letter = tolower(Letter);
 		if(!isalpha(Letter))
@@ -93,7 +103,7 @@ bool FBullCowGame::IsLowerCase(FString Guess) const
 }
 
 
-
+//Ensures player's guess is valid
 EWordStatus FBullCowGame::CheckGuessValidity(FString Guess) const
 {
 	int32 guessLength = Guess.length() / sizeof(TCHAR);
@@ -132,7 +142,7 @@ FBullCowCount FBullCowGame::SubmitValidGuess(FString Guess)
 	MyCurrentTry++;
 	FBullCowCount BullCowCount;
 	int32 counter = 0, i = 0;
-	while(counter < (int32)(Guess.length()/sizeof(TCHAR)))
+	while(counter < (int32)(Guess.length() / sizeof(TCHAR)))
 	{
 		// compare letters against the hidden word
 		// if guess's letter and guess's letter position within the word

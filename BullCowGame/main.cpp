@@ -1,7 +1,7 @@
-/* THis is the console executable, that makes use of the
+#pragma once
+/*  This is the console executable, that makes use of the
 	BullCow class. THis acts as the view in a MVC pattern, and is
 	responsible for all user interaction. For game logc see the FBullCowGame Class
-
 */
 #include <iostream>
 #include "FBullCowGame.h"
@@ -18,8 +18,9 @@ bool AskToPlayAgain();
 FText FindErrorMsg(EWordStatus);
 void PrintGameSummary();
 
-FBullCowGame BCGame;
-//entry point for applications
+FBullCowGame BCGame;  //instaiates a class used throughout the game.
+
+
 int main()
 {
 	do
@@ -50,7 +51,7 @@ void PrintIntro()
 }
 
 
-//Play the game
+//Plays a single game to completion
 void PlayGame()
 {
 	int32 maxTries = BCGame.GetMaxTries();
@@ -117,7 +118,7 @@ bool AskToPlayAgain()
 }
 
 //Finds error message for the error code
-FText FindErrorMsg(EWordStatus Error) 
+FText FindErrorMsg(EWordStatus Error)
 {
 	FText ErrorMsg = "";
 	switch(Error)
@@ -141,10 +142,11 @@ FText FindErrorMsg(EWordStatus Error)
 		ErrorMsg = "Unknown error occurred on guess validation";
 		break;
 	}
-	
+
 	return ErrorMsg;
 }
 
+//Tells the player if they won or lost the game.
 void PrintGameSummary()
 {
 	if(BCGame.IsGameWon())
