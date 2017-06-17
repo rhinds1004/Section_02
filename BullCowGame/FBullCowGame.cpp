@@ -11,7 +11,7 @@ using TCHAR = char;
 void FBullCowGame::Reset()
 {
 	constexpr int32 START_CURRENT_TRY = 0;
-	const FString HIDDEN_WORD = "plan";
+	const FString HIDDEN_WORD = "plants";
 
 	this->MyCurrentTry = START_CURRENT_TRY;
 	this->MyHiddenWord = HIDDEN_WORD;
@@ -44,7 +44,7 @@ bool FBullCowGame::IsGameWon() const
 
 int32 FBullCowGame::GetMaxTries() const
 {
-	TMap<int32, int32> WordLengthToMaxTries{ {3,4}, {4,6}, {5,7}, {6,8} };
+	TMap<int32, int32> WordLengthToMaxTries{ {3,4}, {4,7}, {5,10}, {6,15} , {7,20} };
 	return WordLengthToMaxTries[GetHiddenWordLength()];
 }
 
