@@ -40,12 +40,11 @@ public:
 	void Reset();
 
 	FBullCowCount SubmitValidGuess(FString);
-	int32  SetMaxTries(int32 maxTries);
+
 
 private:
 	//init by constructor
 	int32 MyCurrentTry;
-	int32 MyMaxTries;
 	FString MyHiddenWord;
 	bool bWonGame;
 	EWordStatus IsIsogram(FString Guess) const;

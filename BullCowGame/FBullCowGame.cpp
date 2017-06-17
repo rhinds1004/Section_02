@@ -10,12 +10,10 @@ using TCHAR = char;
 
 void FBullCowGame::Reset()
 {
-	constexpr int32 START_CURRENT_TRY = 1;
-	constexpr int32 MAX_TRIES = 8;
-	const FString HIDDEN_WORD = "planet";
+	constexpr int32 START_CURRENT_TRY = 0;
+	const FString HIDDEN_WORD = "plan";
 
 	this->MyCurrentTry = START_CURRENT_TRY;
-	this->MyMaxTries = MAX_TRIES;
 	this->MyHiddenWord = HIDDEN_WORD;
 	this->bWonGame = false;
 	return;
@@ -26,11 +24,12 @@ FBullCowGame::FBullCowGame()
 	Reset();
 }
 
-int32 FBullCowGame::GetMaxTries() const { return MyMaxTries; }
+
 
 int32 FBullCowGame::GetCurrentTry() const { return MyCurrentTry; }
 
 bool FBullCowGame::GetWonGame()const { return this->bWonGame; }
+
 
 int32 FBullCowGame::GetHiddenWordLength() const
 {
@@ -41,6 +40,12 @@ int32 FBullCowGame::GetHiddenWordLength() const
 bool FBullCowGame::IsGameWon() const 
 {
 	return this->GetWonGame();
+}
+
+int32 FBullCowGame::GetMaxTries() const
+{
+	TMap<int32, int32> WordLengthToMaxTries{ {3,4}, {4,6}, {5,7}, {6,8} };
+	return WordLengthToMaxTries[GetHiddenWordLength()];
 }
 
 EWordStatus FBullCowGame::IsIsogram(FString Guess) const
@@ -158,8 +163,4 @@ FBullCowCount FBullCowGame::SubmitValidGuess(FString Guess)
 	return BullCowCount;
 }
 
-int32 FBullCowGame::SetMaxTries(int32 maxTries)
-{
-	MyMaxTries = maxTries;
-	return 0;
-}
+

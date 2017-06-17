@@ -57,7 +57,7 @@ void PlayGame()
 	FText pGuess = "";
 	FBullCowCount BullCowCount;
 
-	while(!BCGame.IsGameWon() && BCGame.GetCurrentTry() <= BCGame.GetMaxTries())
+	while(!BCGame.IsGameWon() && BCGame.GetCurrentTry() < BCGame.GetMaxTries())
 	{
 		pGuess = GetValidGuess();
 		BullCowCount = BCGame.SubmitValidGuess(pGuess);
@@ -78,7 +78,7 @@ FText GetValidGuess()
 	do
 	{
 		std::cout << std::endl;
-		std::cout << "You have " << BCGame.GetMaxTries() - BCGame.GetCurrentTry() + 1 << " guesses left" << std::endl;
+		std::cout << "You have " << BCGame.GetMaxTries() - BCGame.GetCurrentTry() << " guesses left" << std::endl;
 		std::cout << "Please enter your guess: ";
 		std::getline(std::cin, PlayerGuess);
 		result = BCGame.CheckGuessValidity(PlayerGuess);
